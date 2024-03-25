@@ -1,0 +1,36 @@
+{% extends 'webapp/base.html' %}
+
+{% load crispy_forms_tags %}
+{% load custom_tags %}  <!-- Load the custom template tag library -->
+
+{% block content %}
+<body>
+    <div class="container bg-light shadow-md p-5">
+        <h3>Create record</h3>
+        <h6>Start adding in the required details for your record.</h6>
+        <hr>
+        <br>
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+
+            {% for field in form %}
+                {% if field|is_checkbox %}  <!-- Use the custom is_checkbox filter -->
+                    {{ field|crispy }}
+                {% else %}
+                    {{ field|as_crispy_field }}
+                {% endif %}
+            {% endfor %}
+
+            <br>
+            <button type="submit" class="btn btn-primary">
+                Create record &nbsp; <i class="fa fa-check" aria-hidden="true"></i>
+            </button>
+
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+                Return &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+        </form>
+    </div>
+    <br>
+</body>
+{% endblock %}
